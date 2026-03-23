@@ -511,6 +511,10 @@ function MultiUser:onFrontlightStateChanged()
     self:saveCurrentProfileFrontlight()
 end
 
+function MultiUser:onSuspend()
+    self:saveUnlockSetting("last_lock_time", os.time())
+end
+
 function MultiUser:onResume()
     UIManager:scheduleIn(0, function()
         self:applyCurrentProfileFrontlight()
@@ -995,12 +999,10 @@ function MultiUser:onOutOfScreenSaver()
     if self._user_picker then return end
 
     local idle_sec = self:getUnlockIdleSeconds()
-    local last_unlock = self:getUnlockSetting("last_unlock_time") or 0
     local now = os.time()
+    local last_lock = self:getUnlockSetting("last_lock_time") or 0
 
-    self:saveUnlockSetting("last_unlock_time", now)
-
-    if idle_sec > 0 and (now - last_unlock) < idle_sec then return end
+    if idle_sec > 0 and last_lock > 0 and (now - last_lock) < idle_sec then return end
 
     local profiles = self:getProfileNames()
     if #profiles <= 1 then return end
