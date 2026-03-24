@@ -8,7 +8,7 @@
 A plugin and patch for KOReader that adds isolated user profile support — each profile has its own settings, reading history, plugins, and patches. Reading position and bookmarks are independent per profile as long as each user keeps their books in a separate folder.
 
 **Compatibility**
-Tested on Kindle and Android devices.
+Tested on Kindle and Android devices. Other devices may work, but not guaranteed.
 
 ## Support
 
@@ -49,12 +49,12 @@ This plugin is part of an ongoing effort to extend KOReader with patches and plu
 - user picker style: list or tile grid
 - profile avatar images for the user picker screen
 - configurable unlock screen: ask for user on device wake, with configurable idle timeout
-- "Switch user…" shortcut in the main menu (direct switch when only two profiles exist)
+- "Switch user…" shortcut in the main menu
 - API for third-party patches (`THIRDPARTY_API.txt`)
 
 ### Profile avatars (recommended images)
 
-For **unlock / user-picker** avatars, **square (1:1) images** work best.
+For **user-picker** avatars, **square (1:1) images** work best.
 
 **Resolution:** **512×512** pixels is a good default for e-ink screens.
 
@@ -87,35 +87,6 @@ The plugin consists of two parts that must both be installed.
 
 > Both parts are required. The patch (`1-multiuser.lua`) redirects data paths before the UI starts; the plugin (`multiuser.koplugin`) provides the menu and profile management.
 
-## Menus
-
-The plugin adds two entries to the main menu:
-
-<pre>
-🛠️
-├── <b>Switch user…</b>          – quick profile switcher (skipped when only two profiles exist — switches directly)
-└── <b>Users  [ProfileName]</b>
-    ├── ✓  default            – current profile (tap to open profile options)
-    ├──    ProfileName        – other profiles
-    ├── <b>New profile…</b>        – create a new profile
-    └── <b>Settings…</b>
-        ├── Ask for user on unlock
-        ├── Idle before asking again (days / hours / minutes)
-        ├── Title: Who's reading?   – customize the unlock screen title
-        └── Style: List / Tiles  – picker layout
-</pre>
-
-Each profile entry opens a submenu:
-
-<pre>
-ProfileName
-├── Switch to "ProfileName"   – restart KOReader under this profile
-├── Avatar for ProfileName…   – set an image shown on the unlock screen
-└── Delete "ProfileName"…     – permanently delete the profile and all its data
-</pre>
-
-The **default** profile can be renamed (display alias only; the directory stays named `default`).
-
 ## Profile data layout
 
 Each profile's data is stored in a subdirectory of your KOReader base folder:
@@ -136,7 +107,7 @@ koreader/
         └── …
 ```
 
-The `default` profile continues to use the standard KOReader data directory, so existing settings, history, and bookmarks are preserved without any migration.
+The `default` default profile uses the standard KOReader data directory, so your existing settings, history, and bookmarks are preserved. You can also rename the `default` profile.
 
 > **Note:** Plugins installed in the default KOReader plugins directory are available to all profiles. Additional plugins can be placed in a profile's own `plugins/` folder — they will be loaded on top of the shared ones. Plugin settings are always stored per profile, so each user has their own independent configuration even for shared plugins.
 
